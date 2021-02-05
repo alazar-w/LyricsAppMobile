@@ -1,3 +1,6 @@
+import 'package:dalvic_lyrics_sharing_app/constants.dart';
+import 'package:dalvic_lyrics_sharing_app/screens/loginpage.dart';
+import 'package:dalvic_lyrics_sharing_app/screens/signuppage.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/splashpage.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +12,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
+      color: Theme.of(context).primaryColor,
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xFF329D9C),
-        primarySwatch: Colors.black
+        primaryColor: kPrimary,
       ),
-      home: SplashPage()
+      home: LoginPage(
+      )
     );
   }
 }
