@@ -1,5 +1,7 @@
-import 'package:dalvic_lyrics_sharing_app/screens/splashpage.dart';
+
 import 'package:flutter/material.dart';
+
+import 'screens/homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,11 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color(0xFF329D9C),
-        primarySwatch: Colors.black
       ),
-      home: SplashPage()
+      home: HomePage()
     );
   }
 }
