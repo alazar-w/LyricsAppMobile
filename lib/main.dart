@@ -1,4 +1,7 @@
+import 'package:dalvic_lyrics_sharing_app/constants.dart';
+import 'package:dalvic_lyrics_sharing_app/screens/addrequestpage.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/splashpage.dart';
+import 'package:dalvic_lyrics_sharing_app/screens/welcomepage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,10 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Color(0xFF329D9C),
-        primarySwatch: Colors.black
+        primaryColor: kPrimary
       ),
-      home: SplashPage()
+      home: AddRequestPage()
+
     );
   }
 }
