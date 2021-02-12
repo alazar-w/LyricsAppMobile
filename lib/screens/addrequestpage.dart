@@ -169,7 +169,7 @@ class AddRequestPage extends StatelessWidget{
 
                                 onPressed:(){
                                   if(formkey.currentState.validate())
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LyricsPage()));
+                                  Navigator.of(context).pushNamed('/lyrics');
 
                                 },
                                  minWidth: double.infinity,

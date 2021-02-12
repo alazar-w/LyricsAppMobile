@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String pathName = '/login';
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -41,12 +42,13 @@ class _LoginPageState extends State<LoginPage> {
                       Card(
                         child: Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 25.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 25.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(bottom:8.0),
+                                padding: const EdgeInsets.only(bottom: 8.0),
                                 child: Text(
                                   'Login',
                                   style: TextStyle(
@@ -61,10 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       _formField('Email', () => {}),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
                                         child: TextFormField(
                                           initialValue: _password,
-                                          onChanged: (newVal){
+                                          onChanged: (newVal) {
                                             setState(() {
                                               _password = newVal;
                                             });
@@ -72,49 +75,56 @@ class _LoginPageState extends State<LoginPage> {
                                           obscureText: _showPassword,
                                           decoration: InputDecoration(
                                             suffixIcon: IconButton(
-                                              onPressed: (){
+                                              onPressed: () {
                                                 setState(() {
-                                                  _showPassword = !_showPassword;
+                                                  _showPassword =
+                                                      !_showPassword;
                                                 });
                                               },
-                                              icon: Icon(
-                                                  _showPassword?Icons.visibility:Icons.visibility_off
-                                              ),
+                                              icon: Icon(_showPassword
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off),
                                             ),
                                             labelText: 'Password',
                                             hintStyle: TextStyle(color: kHint),
                                             fillColor: kPrimaryLight,
                                             filled: true,
                                             enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.white, width: 1.0)),
+                                                borderSide: BorderSide(
+                                                    color: Colors.white,
+                                                    width: 1.0)),
                                             focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(color: kPrimary, width: 1.0)),
+                                                borderSide: BorderSide(
+                                                    color: kPrimary,
+                                                    width: 1.0)),
                                           ),
                                         ),
                                       )
                                     ],
                                   )),
                               FlatButton(
-                                minWidth: double.infinity,
+                                  minWidth: double.infinity,
                                   height: 50,
-                                  onPressed: ()=>{},
+                                  onPressed: () => {},
                                   color: kPrimary,
-                                  child: Text('Login', style: TextStyle(color: Colors.white),)
-                              ),
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(color: Colors.white),
+                                  )),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      'Don\'t have account '
-                                    ),
-                                    Text(
-                                      'Sign up',
-                                      style: TextStyle(
-                                        color: kPrimary
-                                      ),
-                                    )
+                                    Text('Don\'t have account '),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed('/signup');
+                                        },
+                                        child: Text(
+                                          'Sign up',
+                                          style: TextStyle(color: kPrimary),
+                                        ))
                                   ],
                                 ),
                               )
@@ -133,28 +143,29 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _formField(hint, validator,[password=false, value]) {
+  Widget _formField(hint, validator, [password = false, value]) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         initialValue: value,
-        onChanged: (newVal){
+        onChanged: (newVal) {
           setState(() {
             value = newVal;
           });
         },
         obscureText: password ? _showPassword : false,
         decoration: InputDecoration(
-          suffixIcon: password ? IconButton(
-            onPressed: (){
-              setState(() {
-                _showPassword = !_showPassword;
-              });
-            },
-            icon: Icon(
-              _showPassword?Icons.visibility:Icons.visibility_off
-            ),
-          ): null,
+          suffixIcon: password
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _showPassword = !_showPassword;
+                    });
+                  },
+                  icon: Icon(
+                      _showPassword ? Icons.visibility : Icons.visibility_off),
+                )
+              : null,
           labelText: '$hint',
           hintStyle: TextStyle(color: kHint),
           fillColor: kPrimaryLight,

@@ -1,0 +1,9 @@
+export 'addlyricspage.dart';
+export 'addrequestpage.dart';
+export 'homepage.dart';
+export 'loginpage.dart';
+export 'lyricspage.dart';
+export 'profilepage.dart';
+export 'signuppage.dart';
+export 'splashpage.dart';
+export 'welcomepage.dart';

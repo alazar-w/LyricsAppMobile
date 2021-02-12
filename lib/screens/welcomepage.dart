@@ -58,7 +58,7 @@ class WelcomePage extends StatelessWidget{
                         color: kPrimary
                       ),
                       onPressed:(){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignUpPage()));
+                        Navigator.of(context).pushNamed('/signup');
 
                       },
 
@@ -74,7 +74,7 @@ class WelcomePage extends StatelessWidget{
                 Expanded(
                   child: FlatButton(
                       onPressed:(){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPage()));
+                        Navigator.of(context).pushNamed('/login');
 
                       },
                       color: kPrimary,
@@ -96,7 +96,7 @@ class WelcomePage extends StatelessWidget{
                 color: Colors.black54,
             ),),
                 GestureDetector(onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));
+                  Navigator.of(context).pushNamed('/home');
                 },
                   child: Text("guest",
                     style: TextStyle(
