@@ -14,20 +14,37 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
     // TODO: implement mapEventToState
     try{
       if(event is GetAllRequest){
-        yield FetchingBusyState();
-        print("getting data");
-        List<LyricsRequest> requests = await lyricsRequestRepository.getAllRequests();
-        yield FetchedAllSuccessState(requests: requests);
+        try{
+          yield FetchingBusyState();
+          print("getting data");
+          List<LyricsRequest> requests = await lyricsRequestRepository.getAllRequests();
+          yield FetchedAllSuccessState(requests: requests);
+        }catch(error){
+          print(error);
+          yield FetchingFailedState();
+        }
+
       }
       else if(event is CreateRequest){
-        yield FetchingBusyState();
-        LyricsRequest lyricsRequest = await lyricsRequestRepository.createRequest(request: event.lyricsRequest);
-        yield CreatedSuccessState(request: lyricsRequest);
+        try{
+          yield CreatingBusyState();
+          LyricsRequest lyricsRequest = await lyricsRequestRepository.createRequest(request: event.lyricsRequest);
+          yield CreatedSuccessState(request: lyricsRequest);
+        }catch(error){
+          print(error);
+          yield CreatingFailedState();
+        }
+
       }
       else if(event is UpdateRequest){
-        yield UpdatingBusyState();
-        LyricsRequest lyricsRequest = await lyricsRequestRepository.updateRequest(request: event.lyricsRequest);
-        yield UpdatedSuccessState(request: lyricsRequest);
+        try{
+          yield UpdatingBusyState();
+          LyricsRequest lyricsRequest = await lyricsRequestRepository.updateRequest(request: event.lyricsRequest);
+          yield UpdatedSuccessState(request: lyricsRequest);
+        }catch(error){
+          print(error);
+          yield UpdatingFailedState();
+        }
       }
     }catch(error){
       print(error);

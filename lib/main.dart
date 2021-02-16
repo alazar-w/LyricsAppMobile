@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        color: Theme.of(context).primaryColor,
-        title: 'Flutter Demo',
+        color: kPrimary,
+        title: 'Lyrics Sharing',
         routes: {
           '/': (context) => WelcomePage(),
           '/login': (context) => LoginPage(),

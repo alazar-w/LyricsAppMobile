@@ -227,6 +227,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                       },
                                     ),
                                   ));
+                                  BlocProvider.of<LyricsRequestBloc>(context)..add(GetAllRequest());
                                   setState(() {
                                     artist = "";
                                     song = "";
@@ -236,7 +237,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                 }
                               },
                               builder: (context, state) {
-                                if (state is BusyState) {
+                                if (state is UpdatingBusyState) {
                                   return SpinKitWave(
                                     size: 20,
                                     color: kPrimary,

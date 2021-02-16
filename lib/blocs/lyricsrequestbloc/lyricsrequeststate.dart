@@ -24,6 +24,9 @@ class FetchedAllSuccessState extends LyricsRequestState{
 class SuccessState extends LyricsRequestState{}
 
 class FailedState extends LyricsRequestState{}
+class FetchingFailedState extends LyricsRequestState{}
+class CreatingFailedState extends LyricsRequestState{}
+class UpdatingFailedState extends LyricsRequestState{}
 
 class FetchedSingleSuccessState extends LyricsRequestState{
   final LyricsRequest request;

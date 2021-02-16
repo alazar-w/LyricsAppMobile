@@ -34,8 +34,12 @@ class LyricsRequestsPage extends StatelessWidget{
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => LyricsRequestDetailPage(request: state.requests[index])));
               },
             ));
+          }else if(state is FetchingBusyState){
+            return Center(child: SpinKitWave(size: 25,color: kPrimary,));
           }
-          return Center(child: SpinKitWave(size: 25,color: kPrimary,));
+          return Center(child: GestureDetector(onTap: (){
+            BlocProvider.of<LyricsRequestBloc>(context)..add(GetAllRequest());
+          },child: Text('Failed, click to retry')),);
         },
       ),
       floatingActionButton: FloatingActionButton(
