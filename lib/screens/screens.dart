@@ -7,3 +7,5 @@ export 'profilepage.dart';
 export 'signuppage.dart';
 export 'splashpage.dart';
 export 'welcomepage.dart';
+export 'editrequestpage.dart';
+export 'lyricsrequestdetailpage.dart';
