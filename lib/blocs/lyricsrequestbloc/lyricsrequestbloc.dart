@@ -46,6 +46,15 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
           yield UpdatingFailedState();
         }
       }
+      else if(event is DeleteRequest){
+        try{
+          await lyricsRequestRepository.deleteRequest(requestId: event.requestId);
+          yield DeleteSuccessState();
+        }catch(error){
+          print(error);
+          yield DeleteFailedState();
+        }
+      }
     }catch(error){
       print(error);
       yield FailedState();

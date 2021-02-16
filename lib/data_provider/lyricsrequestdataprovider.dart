@@ -18,6 +18,9 @@ class LyricsRequestDataProvider extends BaseDataProvider{
     rawData.forEach((element) {
       lyricsRequests.add(LyricsRequest.fromJson(element));
     });
+    // for(int i = 0; i < rawData.length; i++){
+    //   lyricsRequests.add(LyricsRequest.fromJson(rawData[i]));
+    // }
     print(lyricsRequests);
     return lyricsRequests;
   }
@@ -43,5 +46,14 @@ class LyricsRequestDataProvider extends BaseDataProvider{
     print(response.body);
     LyricsRequest lyricsRequest = LyricsRequest.fromJson(jsonDecode(response.body)["data"]);
     return lyricsRequest;
+  }
+
+  Future<void> deleteRequest({int requestId}) async {
+    var response = await httpClient.delete('$baseUrl/lyricsRequest/$requestId', headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+    if(response.statusCode == 200){
+      return null;
+    }else{
+      throw Exception("Failed deleting lyrics request");
+    }
   }
 }

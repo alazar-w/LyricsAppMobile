@@ -39,3 +39,11 @@ class UpdateRequest extends LyricsRequestEvent{
   List<Object> get props => [lyricsRequest];
 }
 
+class DeleteRequest extends LyricsRequestEvent{
+  final int requestId;
+  DeleteRequest({@required this.requestId}):assert(requestId!=null);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [requestId];
+}

@@ -28,6 +28,9 @@ class FetchingFailedState extends LyricsRequestState{}
 class CreatingFailedState extends LyricsRequestState{}
 class UpdatingFailedState extends LyricsRequestState{}
 
+class DeleteSuccessState extends LyricsRequestState{}
+class DeleteFailedState extends LyricsRequestState{}
+
 class FetchedSingleSuccessState extends LyricsRequestState{
   final LyricsRequest request;
   FetchedSingleSuccessState({@required this.request}):assert(request!=null);

@@ -17,4 +17,8 @@ class LyricsRequestRepository{
   Future<LyricsRequest> updateRequest({LyricsRequest request}) async {
     return await dataProvider.updateRequest(request: request);
   }
+
+  Future<void> deleteRequest({int requestId}) async {
+    return await dataProvider.deleteRequest(requestId: requestId);
+  }
 }
