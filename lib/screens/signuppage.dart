@@ -1,3 +1,5 @@
+import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationbloc.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signupbloc/signup.dart';
 import 'package:dalvic_lyrics_sharing_app/constants.dart';
 import 'package:dalvic_lyrics_sharing_app/models/user.dart';
@@ -159,9 +161,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           if(state is FailedState){
                             _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('${state.errorMessage}')));
                           }else if(state is SuccessState){
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Successfully registered~')));
-
-                            Navigator.of(context).pushNamed(HomePage.pathName);
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Registration Successful')));
+                            BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user));
+                            Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, ModalRoute.withName('/'));
                           }
                         },
                         builder: (context, state){
