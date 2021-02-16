@@ -6,9 +6,9 @@ import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
-class LyricsRequestDataProvider extends BaseDataProvider{
+class LyricsDataProvider extends BaseDataProvider{
   final http.Client httpClient;
-  LyricsRequestDataProvider({@required this.httpClient}):assert(httpClient!=null);
+  LyricsDataProvider({@required this.httpClient}):assert(httpClient!=null);
 
   //Future is a core Dart class for working with async operations. A Future object represents a potential value or error that will be available at some time in the future.
   //the async keyword before a function’s body is to mark it as asynchronous.
