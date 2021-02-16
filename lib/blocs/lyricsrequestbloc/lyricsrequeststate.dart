@@ -1,4 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -17,7 +17,7 @@ class UpdatingBusyState extends LyricsRequestState{}
 class CreatingBusyState extends LyricsRequestState{}
 
 class FetchedAllSuccessState extends LyricsRequestState{
-  final List<LyricsRequest> requests;
+  final List<Lyrics> requests;
   FetchedAllSuccessState({@required this.requests}):assert(requests!=null);
 }
 
@@ -32,7 +32,7 @@ class DeleteSuccessState extends LyricsRequestState{}
 class DeleteFailedState extends LyricsRequestState{}
 
 class FetchedSingleSuccessState extends LyricsRequestState{
-  final LyricsRequest request;
+  final Lyrics request;
   FetchedSingleSuccessState({@required this.request}):assert(request!=null);
   @override
   // TODO: implement props
@@ -40,7 +40,7 @@ class FetchedSingleSuccessState extends LyricsRequestState{
 }
 
 class CreatedSuccessState extends LyricsRequestState{
-  final LyricsRequest request;
+  final Lyrics request;
   CreatedSuccessState({@required this.request}):assert(request!=null);
 
   @override
@@ -49,7 +49,7 @@ class CreatedSuccessState extends LyricsRequestState{
 }
 
 class UpdatedSuccessState extends LyricsRequestState{
-  final LyricsRequest request;
+  final Lyrics request;
   UpdatedSuccessState({@required this.request}):assert(request!=null);
 
   @override

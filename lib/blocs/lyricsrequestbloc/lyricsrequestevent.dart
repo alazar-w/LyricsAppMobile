@@ -1,4 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -22,7 +22,7 @@ class GetAllRequest extends LyricsRequestEvent{
 }
 
 class CreateRequest extends LyricsRequestEvent{
-  final LyricsRequest lyricsRequest;
+  final Lyrics lyricsRequest;
   CreateRequest({@required this.lyricsRequest}):assert(lyricsRequest!=null);
 
   @override
@@ -31,7 +31,7 @@ class CreateRequest extends LyricsRequestEvent{
 }
 
 class UpdateRequest extends LyricsRequestEvent{
-  final LyricsRequest lyricsRequest;
+  final Lyrics lyricsRequest;
   UpdateRequest({@required this.lyricsRequest}):assert(lyricsRequest!=null);
 
   @override

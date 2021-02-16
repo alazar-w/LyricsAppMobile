@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dalvic_lyrics_sharing_app/data_provider/BaseDataProvider.dart';
-import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
@@ -12,49 +12,51 @@ class LyricsDataProvider extends BaseDataProvider{
 
   //Future is a core Dart class for working with async operations. A Future object represents a potential value or error that will be available at some time in the future.
   //the async keyword before a function’s body is to mark it as asynchronous.
-  Future<List<LyricsRequest>> getAllLyricsRequest() async {
+  Future<List<Lyrics>> getAllLyrics() async {
     //the await keyword to get the completed result of an asynchronous expression. The await keyword only works within an async function.
-    var response = await httpClient.get('$baseUrl/lyricsRequest', headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
-    List<LyricsRequest> lyricsRequests = new List<LyricsRequest>();
+    var response = await httpClient.get('$baseUrl/lyrics', headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
+    List<Lyrics> lyrics = new List<Lyrics>();
 
     //Manual JSON decoding refers to using the built-in JSON decoder in dart:convert.
     //It involves passing the raw JSON string to the jsonDecode() function, and then looking up the values you need in the resulting Map<String, dynamic>.
     List<dynamic> rawData = jsonDecode(response.body)["data"];
     rawData.forEach((element) {
-      lyricsRequests.add(LyricsRequest.fromJson(element));
+      lyrics.add(Lyrics.fromJson(element));
     });
     // for(int i = 0; i < rawData.length; i++){
-    //   lyricsRequests.add(LyricsRequest.fromJson(rawData[i]));
+    //   lyrics.add(LyricsRequest.fromJson(rawData[i]));
     // }
-    print(lyricsRequests);
-    return lyricsRequests;
+    print(lyrics);
+    return lyrics;
   }
 
-  Future<LyricsRequest> createRequest({LyricsRequest request}) async {
-    var response = await httpClient.post('$baseUrl/lyricsRequest', body: {
+  Future<Lyrics> createLyrics({Lyrics request}) async {
+    var response = await httpClient.post('$baseUrl/lyrics', body: {
       "music_name": request.musicName,
       "artist_name": request.artistName,
+      "lyrics": request.lyrics,
       "url": request.url,
-    },headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+    },headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
     print(response.body);
-    LyricsRequest lyricsRequest = LyricsRequest.fromJson(jsonDecode(response.body)["response"]["requestedLyrics"]);
-    return lyricsRequest;
+    Lyrics lyrics = Lyrics.fromJson(jsonDecode(response.body)["response"]["lyrics"]);
+    return lyrics;
   }
 
-  Future<LyricsRequest> updateRequest({LyricsRequest request}) async {
-    var response = await httpClient.post('$baseUrl/lyricsRequest/${request.id}', body: {
+  Future<Lyrics> updateLyrics({Lyrics request}) async {
+    var response = await httpClient.post('$baseUrl/lyrics/${request.id}', body: {
       "music_name": request.musicName,
       "artist_name": request.artistName,
+      "lyrics":request.lyrics,
       "url": request.url,
       "_method": "PUT",
-    },headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+    },headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
     print(response.body);
-    LyricsRequest lyricsRequest = LyricsRequest.fromJson(jsonDecode(response.body)["data"]);
-    return lyricsRequest;
+    Lyrics lyrics = Lyrics.fromJson(jsonDecode(response.body)["data"]);
+    return lyrics;
   }
 
-  Future<void> deleteRequest({int requestId}) async {
-    var response = await httpClient.delete('$baseUrl/lyricsRequest/$requestId', headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+  Future<void> deleteLyrics({int requestId}) async {
+    var response = await httpClient.delete('$baseUrl/lyrics/$requestId', headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
     if(response.statusCode == 200){
       return null;
     }else{

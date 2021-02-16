@@ -1,5 +1,5 @@
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
-import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/lyricsrequestdetailpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../constants.dart';
 
 class EditRequestPage extends StatefulWidget {
-  final LyricsRequest request;
+  final Lyrics request;
   EditRequestPage({@required this.request}):assert(request != null);
   @override
   _EditRequestPageState createState() => _EditRequestPageState();
@@ -248,7 +248,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                       if (formkey.currentState.validate()) {
                                         BlocProvider.of<LyricsRequestBloc>(context)
                                           ..add(UpdateRequest(
-                                              lyricsRequest: LyricsRequest(
+                                              lyricsRequest: Lyrics(
                                                   artistName: artist,
                                                   musicName: song,
                                                   url: url,

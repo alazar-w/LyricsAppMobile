@@ -1,5 +1,5 @@
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
-import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/lyricsrequestdetailpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -238,7 +238,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
                                   if (formkey.currentState.validate()) {
                                     BlocProvider.of<LyricsRequestBloc>(context)
                                       ..add(CreateRequest(
-                                          lyricsRequest: LyricsRequest(
+                                          lyricsRequest: Lyrics(
                                               artistName: artist,
                                               musicName: song,
                                               url: url)));

@@ -1,9 +1,9 @@
-import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LyricsRequestDetailPage extends StatelessWidget{
-  final LyricsRequest request;
+  final Lyrics request;
   LyricsRequestDetailPage({@required this.request}):assert(request!=null);
   @override
   Widget build(BuildContext context) {

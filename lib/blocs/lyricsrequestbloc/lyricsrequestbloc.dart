@@ -1,11 +1,11 @@
-import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
-import 'package:dalvic_lyrics_sharing_app/repository/lyricsrequestrepository.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
+import 'package:dalvic_lyrics_sharing_app/repository/lyricsrepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'lyricsrequest.dart';
 
 class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
-  final LyricsRequestRepository lyricsRequestRepository;
+  final LyricsRepository lyricsRequestRepository;
   LyricsRequestBloc({@required this.lyricsRequestRepository}):assert(lyricsRequestRepository!=null),super(IdleState());
 
   @override
@@ -17,7 +17,7 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
         try{
           yield FetchingBusyState();
           print("getting data");
-          List<LyricsRequest> requests = await lyricsRequestRepository.getAllRequests();
+          List<Lyrics> requests = await lyricsRequestRepository.getAllLyrics();
           yield FetchedAllSuccessState(requests: requests);
         }catch(error){
           print(error);
@@ -28,7 +28,7 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
       else if(event is CreateRequest){
         try{
           yield CreatingBusyState();
-          LyricsRequest lyricsRequest = await lyricsRequestRepository.createRequest(request: event.lyricsRequest);
+          Lyrics lyricsRequest = await lyricsRequestRepository.createLyrics(request: event.lyricsRequest);
           yield CreatedSuccessState(request: lyricsRequest);
         }catch(error){
           print(error);
@@ -39,7 +39,7 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
       else if(event is UpdateRequest){
         try{
           yield UpdatingBusyState();
-          LyricsRequest lyricsRequest = await lyricsRequestRepository.updateRequest(request: event.lyricsRequest);
+          Lyrics lyricsRequest = await lyricsRequestRepository.updateLyrics(request: event.lyricsRequest);
           yield UpdatedSuccessState(request: lyricsRequest);
         }catch(error){
           print(error);
@@ -48,7 +48,7 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
       }
       else if(event is DeleteRequest){
         try{
-          await lyricsRequestRepository.deleteRequest(requestId: event.requestId);
+          await lyricsRequestRepository.deleteLyrics(requestId: event.requestId);
           yield DeleteSuccessState();
         }catch(error){
           print(error);
