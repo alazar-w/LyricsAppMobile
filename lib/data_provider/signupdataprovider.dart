@@ -15,6 +15,7 @@ class SignUpDataProvider extends BaseDataProvider{
 
     if(response.statusCode == 201){
       User user = User.fromJson(jsonDecode(response.body)['data']);
+      //var rawData = User.fromJson(jsonDecode(response.body[]));
       print(user);
       return user;
     }else{

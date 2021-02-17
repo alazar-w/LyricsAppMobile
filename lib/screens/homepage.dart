@@ -1,5 +1,6 @@
 
 import 'package:dalvic_lyrics_sharing_app/helper/constants.dart';
+import 'package:dalvic_lyrics_sharing_app/screens/addlyricspage.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -141,7 +142,15 @@ class HomePage extends StatelessWidget {
                     ),
                   ]),
             )
-        )
+        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+            Navigator.pushNamed(context, AddLyricsPage.routeName);
+        },
+        child: Icon(Icons.add),
+        backgroundColor: kPrimary,
+      ),
+
     );
   }
 
