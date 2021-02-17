@@ -163,10 +163,9 @@ class _AddLyricsPageState extends State<AddLyricsPage> {
                                     listener: (context, state){
                                       if(state is LyricsFailedState){
                                         _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('${state.errorMessage}')));
-                                      }else if(state is LyricsSuccesState){
-                                        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Successfully registered~')));
-
-                                        Navigator.of(context).pushNamed(HomePage.pathName);
+                                      }else if(state is LyricsCreateSuccessState){
+                                        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Successfully submitted')));
+                                        BlocProvider.of<LyricsBloc>(context)..add(GetAllLyrics());
                                       }
                                     },
                                     builder: (context, state){
@@ -178,7 +177,7 @@ class _AddLyricsPageState extends State<AddLyricsPage> {
                                           height: 50.0,
                                           onPressed: () {
                                             if(_formKey.currentState.validate()){
-                                              Lyrics lyrics = Lyrics(musicName: this.musicName, artistName: this.artistName, lyrics: this.lyricsText, id: 1);
+                                              Lyrics lyrics = Lyrics(musicName: this.musicName, artistName: this.artistName, lyrics: this.lyricsText, url: this.urllink);
                                               // User user = User();
                                               // user.name = name;
                                               // user.email = email;

@@ -14,26 +14,30 @@ class LyricsDataProvider extends BaseDataProvider{
 
   Future<Lyrics> CreateLyrics(Lyrics lyrics) async{
     print("name: ${lyrics.artistName}");
-        // final response = await httpClient.post(
-        //   "$baseUrl/lyrics",
-        //   body: {
-        //     'music_name': lyrics.musicName,
-        //     'artist_name': lyrics.artistName,
-        //     'lyrics': lyrics.lyrics,
-        //     'url': lyrics.url,
-        //   },
-        //     headers: {HttpHeaders.authorizationHeader: "Bearer 1|re9gpxoGnrnEPNPy5yWWtfWB6SyioMRCGwDqaiQO"}, );
-    var response = await http.post(
-        "$baseUrl/lyrics",
-        body: {
-          'music_name': lyrics.musicName,
-          'artist_name': lyrics.artistName,
-          'lyrics': lyrics.lyrics,
-          'url': lyrics.url,
-        },
-        headers: {HttpHeaders.authorizationHeader: "Bearer 1|re9gpxoGnrnEPNPy5yWWtfWB6SyioMRCGwDqaiQO"}
-    );
-          print("resposne${response.body}");
+    print("name: ${lyrics.musicName}");
+    print("name: ${lyrics.url}");
+    print("name: ${lyrics.lyrics}");
+
+    final response = await httpClient.post(
+          "$baseUrl/lyrics",
+          body: {
+            'music_name': lyrics.musicName,
+            'artist_name': lyrics.artistName,
+            'lyrics': lyrics.lyrics,
+            'url': lyrics.url,
+          },
+            headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"}, );
+    // var response = await http.post(
+    //     "$baseUrl/lyrics",
+    //   body: {
+    //       "music_name":"test",
+    //     "artist_name":"test",
+    //     "lyrics":"test",
+    //     "url":"test",
+    //   },
+    //   headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"}
+    // );
+          print("response: ${response.body}");
         if(response.statusCode==200){
           return Lyrics.fromJson(jsonDecode(response.body)["response"]["lyrics"]);
         }
@@ -41,14 +45,14 @@ class LyricsDataProvider extends BaseDataProvider{
           throw Exception('failed to created Lyrics');
         }
   }
-  Future<List<Lyrics>> getCourses() async {
-    final response = await httpClient.get('$baseUrl/courses');
+  Future<List<Lyrics>> getLyrics() async {
+    final response = await httpClient.get('$baseUrl/lyrics', headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
 
     if (response.statusCode == 200) {
-      final lyricses = jsonDecode(response.body) as List;
-      return lyricses.map((lyrics) => Lyrics.fromJson(lyrics)).toList();
+      List<dynamic> lyrics = jsonDecode(response.body)["body"];
+      return lyrics.map((lyrics) => Lyrics.fromJson(lyrics)).toList();
     } else {
-      throw Exception('Failed to load courses');
+      throw Exception('Failed to load lyrics');
     }
   }
 

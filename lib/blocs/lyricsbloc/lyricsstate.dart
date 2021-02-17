@@ -14,6 +14,8 @@ class LyricsBusyState extends LyricsState{
   // TODO: implement props
   List<Object> get props => [];
 }
+
+class LyricsCreateSuccessState extends LyricsState{}
 class LyricsSuccesState extends LyricsState{
   final List<Lyrics> lyricses;
 

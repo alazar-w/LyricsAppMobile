@@ -8,7 +8,7 @@ class Lyrics extends Equatable{
   final String lyrics;
   final bool status;
   final String url;
-  Lyrics({@required this.musicName,@required this.artistName,@required this.lyrics,this.url,@required this.id,this.status});
+  Lyrics({@required this.musicName,@required this.artistName,@required this.lyrics,this.url,this.id,this.status});
 
 
   factory Lyrics.fromJson(Map<String, dynamic> json){

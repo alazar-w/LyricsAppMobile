@@ -10,7 +10,7 @@ class LyricsRepository {
   Future<Lyrics> CreateLyrics(Lyrics lyrics) async{
       return await dataProvider.CreateLyrics(lyrics);
   }
-  Future<List<Lyrics>> GetLyrics() async{
-    return await dataProvider.getCourses();
+  Future<List<Lyrics>> GetLyrics() async {
+    return await dataProvider.getLyrics();
   }
 }
