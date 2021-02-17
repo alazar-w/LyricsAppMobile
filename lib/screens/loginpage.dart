@@ -1,3 +1,5 @@
+import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationbloc.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinevent.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinstate.dart';
@@ -128,7 +130,8 @@ class _LoginPageState extends State<LoginPage> {
                                     }
                                     else if(state is SignInSuccesState){
                                       _scaffoldKey.currentState.showSnackBar(SnackBar(content : Text('logged in succesfully!')));
-                                      Navigator.of(context).pushNamed(HomePage.pathName);
+                                      BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user));
+                                      Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, ModalRoute.withName('/'));
                                     }
                                   },
                                   builder: (context ,state){

@@ -17,7 +17,9 @@ class SignInBloc extends Bloc<SignInEvent,SignInState>{
       if(event is SignIn){
         yield SignInSuccesState(user: await signInRepository.signin(event.user));
       }
-    }catch(error){
+    }catch(error, statcktrace){
+      print(error);
+      print(statcktrace);
       yield SignInFailedState(errorMessage: "something went wrong!");
     }
   }}

@@ -3,6 +3,7 @@ import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationstate.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signupbloc/signup.dart';
 import 'package:dalvic_lyrics_sharing_app/constants.dart';
 import 'package:dalvic_lyrics_sharing_app/data_provider/lyricsrequestdataprovider.dart';
@@ -47,6 +48,8 @@ void main() async {
               ..add(InitEvent())),
     BlocProvider(
         create: (context) => LyricsBloc(lyricsRepository: lyricsRepository)),
+    BlocProvider(
+        create: (context) => SignInBloc(signInRepository: _signInRepository)),
   ], child: MyApp()));
 }
 

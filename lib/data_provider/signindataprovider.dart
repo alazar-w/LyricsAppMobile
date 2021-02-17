@@ -13,7 +13,10 @@ class SignInDataProvider extends BaseDataProvider{
     });
     //print(response.body);
     if(response.statusCode==200){
-      User user = User.fromJson(jsonDecode(response.body)['data']);
+      var rawResponse = jsonDecode(response.body)['response'];
+      User user = User.fromJson(rawResponse['user']);
+      var token = rawResponse['token'];
+      user.token = token;
       return user;
     }
     else{
