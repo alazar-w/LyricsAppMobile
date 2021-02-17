@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         color: kPrimary,
         title: 'Lyrics Sharing',
+        initialRoute: '/',
         routes: {
           '/': (context) => WelcomePage(),
           '/login': (context) => LoginPage(),

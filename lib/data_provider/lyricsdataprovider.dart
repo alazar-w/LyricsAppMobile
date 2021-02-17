@@ -14,7 +14,7 @@ class LyricsDataProvider extends BaseDataProvider{
   //the async keyword before a function’s body is to mark it as asynchronous.
   Future<List<Lyrics>> getAllLyrics() async {
     //the await keyword to get the completed result of an asynchronous expression. The await keyword only works within an async function.
-    var response = await httpClient.get('$baseUrl/lyrics', headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
+    var response = await httpClient.get('$baseUrl/lyrics', headers: {HttpHeaders.authorizationHeader: "Bearer 11|Eh8W6UM9O9FZUN9oSsuoaWF0u1a1SalKyndQF0ZP"});
     List<Lyrics> lyrics = new List<Lyrics>();
 
     //Manual JSON decoding refers to using the built-in JSON decoder in dart:convert.
@@ -37,9 +37,12 @@ class LyricsDataProvider extends BaseDataProvider{
     print("url: ${request.url}");
     print("lyrics: ${request.lyrics}");
     var response = await http.post('$baseUrl/lyrics', body: {
-      "name":"name"
-    }, headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
-    print("printing response body");
+      "artist_name":request.artistName,
+      "music_name":request.musicName,
+      "url":request.url,
+      "lyrics":request.lyrics
+    }, headers: {HttpHeaders.authorizationHeader: "Bearer 13|RGxVBAcpt9kQXyDF8awsSizDGOar3l8Mlg0jaiTP"});
+    print("printing response body ${response.body}");
     Lyrics lyrics = Lyrics.fromJson(jsonDecode(response.body)["response"]["lyrics"]);
     return lyrics;
   }
