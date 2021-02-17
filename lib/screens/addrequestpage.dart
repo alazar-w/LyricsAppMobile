@@ -1,4 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/lyricsrequestdetailpage.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class AddRequestPage extends StatefulWidget {
 
 class _AddRequestPageState extends State<AddRequestPage> {
   final formkey = GlobalKey<FormState>();
-  String artist, song, url;
+  String artist, song,lyrics, url;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -41,7 +41,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 65),
-                    child: Text("Add Request",
+                    child: Text("Add Lyrics",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 28,
@@ -133,6 +133,34 @@ class _AddRequestPageState extends State<AddRequestPage> {
                                 },
                               ),
                             ),
+                            Text('Lyrics',
+                                style:
+                                TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),SizedBox(height: 7),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                child: TextFormField(
+                                  validator: (value){
+                                    if(value.isEmpty){
+                                      return 'please enter Lyrics!';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      lyrics = value;
+                                    });
+                                  },
+                                  keyboardType: TextInputType.multiline,
+                                  minLines: 10,
+                                  maxLines: null,
+                                  decoration: InputDecoration(
+                                      enabledBorder: InputBorder.none,
+                                      filled: true,
+                                      fillColor: kPrimaryLight),
+                                ),
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -202,7 +230,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child:
-                            BlocConsumer<LyricsRequestBloc, LyricsRequestState>(
+                            BlocConsumer<LyricsBloc, LyricsState>(
                           listener: (context, state) {
                             if (state is CreatedSuccessState) {
                               _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -219,9 +247,9 @@ class _AddRequestPageState extends State<AddRequestPage> {
                                   },
                                 ),
                               ));
-                              BlocProvider.of<LyricsRequestBloc>(context)..add(GetAllRequest());
+                              BlocProvider.of<LyricsBloc>(context)..add(GetAllLyrics());
                               setState(() {
-                                artist = song = url = "";
+                                artist = song = lyrics = url = "";
                               });
                               formkey.currentState.reset();
                             }
@@ -236,11 +264,13 @@ class _AddRequestPageState extends State<AddRequestPage> {
                             return FlatButton(
                                 onPressed: () {
                                   if (formkey.currentState.validate()) {
-                                    BlocProvider.of<LyricsRequestBloc>(context)
-                                      ..add(CreateRequest(
+                                    print('flat button pressed');
+                                    BlocProvider.of<LyricsBloc>(context)
+                                      ..add(CreateLyrics(
                                           lyricsRequest: Lyrics(
-                                              artistName: artist,
                                               musicName: song,
+                                              artistName: artist,
+                                              lyrics: lyrics,
                                               url: url)));
                                   }
                                 },
@@ -248,7 +278,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
                                 height: 50,
                                 color: kPrimary,
                                 child: Text(
-                                  "Add Request",
+                                  "Add Lyrics",
                                   style: TextStyle(color: Colors.white),
                                 ));
                           },

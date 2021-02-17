@@ -1,4 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/lyricsrequestdetailpage.dart';
 import 'package:flutter/material.dart';
@@ -210,7 +210,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child:
-                            BlocConsumer<LyricsRequestBloc, LyricsRequestState>(
+                            BlocConsumer<LyricsBloc, LyricsState>(
                               listener: (context, state) {
                                 if (state is UpdatedSuccessState) {
                                   _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -227,7 +227,7 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                       },
                                     ),
                                   ));
-                                  BlocProvider.of<LyricsRequestBloc>(context)..add(GetAllRequest());
+                                  BlocProvider.of<LyricsBloc>(context)..add(GetAllLyrics());
                                   setState(() {
                                     artist = "";
                                     song = "";
@@ -246,8 +246,8 @@ class _EditRequestPageState extends State<EditRequestPage> {
                                 return FlatButton(
                                     onPressed: () {
                                       if (formkey.currentState.validate()) {
-                                        BlocProvider.of<LyricsRequestBloc>(context)
-                                          ..add(UpdateRequest(
+                                        BlocProvider.of<LyricsBloc>(context)
+                                          ..add(UpdateLyrics(
                                               lyricsRequest: Lyrics(
                                                   artistName: artist,
                                                   musicName: song,

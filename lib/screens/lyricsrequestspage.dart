@@ -1,4 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,9 @@ class LyricsRequestsPage extends StatelessWidget {
         title: Text('My Requests'),
         centerTitle: true,
       ),
-      body: BlocConsumer<LyricsRequestBloc, LyricsRequestState>(
+
+      //BlocConsumer is a widget which combines both blocListener and blocBuilder
+      body: BlocConsumer<LyricsBloc, LyricsState>(
         listener: (context, state) {
           if (state is DeleteFailedState) {
             _scaffoldKey.currentState.showSnackBar(
@@ -25,7 +27,7 @@ class LyricsRequestsPage extends StatelessWidget {
           } else if (state is DeleteSuccessState) {
             _scaffoldKey.currentState.showSnackBar(
                 SnackBar(content: Text("Lyrics request deleted successfully")));
-            BlocProvider.of<LyricsRequestBloc>(context)..add(GetAllRequest());
+            BlocProvider.of<LyricsBloc>(context)..add(GetAllLyrics());
           }
         },
         buildWhen: (prevState, currentState) {
@@ -59,8 +61,8 @@ class LyricsRequestsPage extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              BlocProvider.of<LyricsRequestBloc>(context)
-                                ..add(DeleteRequest(
+                              BlocProvider.of<LyricsBloc>(context)
+                                ..add(DeleteLyrics(
                                     requestId: state.requests[index].id));
                             },
                             icon: Icon(
@@ -87,8 +89,8 @@ class LyricsRequestsPage extends StatelessWidget {
           return Center(
             child: GestureDetector(
                 onTap: () {
-                  BlocProvider.of<LyricsRequestBloc>(context)
-                    ..add(GetAllRequest());
+                  BlocProvider.of<LyricsBloc>(context)
+                    ..add(GetAllLyrics());
                 },
                 child: Text('Failed, click to retry')),
           );

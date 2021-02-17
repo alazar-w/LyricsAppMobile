@@ -1,4 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signupbloc/signup.dart';
 import 'package:dalvic_lyrics_sharing_app/constants.dart';
 import 'package:dalvic_lyrics_sharing_app/data_provider/lyricsdataprovider.dart';
@@ -11,11 +11,11 @@ import 'screens/screens.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  LyricsRepository _lyricsRequestRepository = new LyricsRepository(dataProvider: new LyricsDataProvider(httpClient: http.Client()));
+  LyricsRepository _lyricsRepository = new LyricsRepository(dataProvider: new LyricsDataProvider(httpClient: http.Client()));
   SignUpRepository _signUpRepository = SignUpRepository(signUpDataProvider: new SignUpDataProvider());
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (context) => SignUpBloc(signUpRepository: _signUpRepository)),
-    BlocProvider(create: (context) => LyricsRequestBloc(lyricsRequestRepository: _lyricsRequestRepository)..add(GetAllRequest())),
+    BlocProvider(create: (context) => LyricsBloc(lyricsRepository: _lyricsRepository)..add(GetAllLyrics())),
   ],
   child: MyApp()));
 }

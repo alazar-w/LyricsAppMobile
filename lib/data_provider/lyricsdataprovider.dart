@@ -31,13 +31,15 @@ class LyricsDataProvider extends BaseDataProvider{
   }
 
   Future<Lyrics> createLyrics({Lyrics request}) async {
-    var response = await httpClient.post('$baseUrl/lyrics', body: {
-      "music_name": request.musicName,
-      "artist_name": request.artistName,
-      "lyrics": request.lyrics,
-      "url": request.url,
-    },headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
-    print(response.body);
+    print("createLyrics in provider");
+    print("artist name: ${request.artistName}");
+    print("music name: ${request.musicName}");
+    print("url: ${request.url}");
+    print("lyrics: ${request.lyrics}");
+    var response = await http.post('$baseUrl/lyrics', body: {
+      "name":"name"
+    }, headers: {HttpHeaders.authorizationHeader: "Bearer 39|NwUITlTzZSXUHYrk95mHD2ypwDarwIgUSoOsNF2k"});
+    print("printing response body");
     Lyrics lyrics = Lyrics.fromJson(jsonDecode(response.body)["response"]["lyrics"]);
     return lyrics;
   }

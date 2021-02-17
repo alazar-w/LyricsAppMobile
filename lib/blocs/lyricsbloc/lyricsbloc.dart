@@ -2,22 +2,23 @@ import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/lyricsrepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'lyricsrequest.dart';
+import 'lyrics.dart';
 
-class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
-  final LyricsRepository lyricsRequestRepository;
-  LyricsRequestBloc({@required this.lyricsRequestRepository}):assert(lyricsRequestRepository!=null),super(IdleState());
+class LyricsBloc extends Bloc<LyricsEvent, LyricsState>{
+  final LyricsRepository lyricsRepository;
+  LyricsBloc({@required this.lyricsRepository}):assert(lyricsRepository!=null),super(IdleState());
 
+  //async* represent stream,we use yield with it as we have many stream of data's to return
   @override
-  Stream<LyricsRequestState> mapEventToState(LyricsRequestEvent event) async* {
+  Stream<LyricsState> mapEventToState(LyricsEvent event) async* {
     print("map event to state");
     // TODO: implement mapEventToState
     try{
-      if(event is GetAllRequest){
+      if(event is GetAllLyrics){
         try{
           yield FetchingBusyState();
           print("getting data");
-          List<Lyrics> requests = await lyricsRequestRepository.getAllLyrics();
+          List<Lyrics> requests = await lyricsRepository.getAllLyrics();
           yield FetchedAllSuccessState(requests: requests);
         }catch(error){
           print(error);
@@ -25,30 +26,33 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
         }
 
       }
-      else if(event is CreateRequest){
+      else if(event is CreateLyrics){
         try{
+          print("did u get here");
           yield CreatingBusyState();
-          Lyrics lyricsRequest = await lyricsRequestRepository.createLyrics(request: event.lyricsRequest);
+          print("did u get here 2");
+          Lyrics lyricsRequest = await lyricsRepository.createLyrics(request: event.lyricsRequest);
+          print("did u get here 3");
           yield CreatedSuccessState(request: lyricsRequest);
-        }catch(error){
-          print(error);
+        }catch(error, stacktrace){
+          print(stacktrace);
           yield CreatingFailedState();
         }
 
       }
-      else if(event is UpdateRequest){
+      else if(event is UpdateLyrics){
         try{
           yield UpdatingBusyState();
-          Lyrics lyricsRequest = await lyricsRequestRepository.updateLyrics(request: event.lyricsRequest);
+          Lyrics lyricsRequest = await lyricsRepository.updateLyrics(request: event.lyricsRequest);
           yield UpdatedSuccessState(request: lyricsRequest);
         }catch(error){
           print(error);
           yield UpdatingFailedState();
         }
       }
-      else if(event is DeleteRequest){
+      else if(event is DeleteLyrics){
         try{
-          await lyricsRequestRepository.deleteLyrics(requestId: event.requestId);
+          await lyricsRepository.deleteLyrics(requestId: event.requestId);
           yield DeleteSuccessState();
         }catch(error){
           print(error);

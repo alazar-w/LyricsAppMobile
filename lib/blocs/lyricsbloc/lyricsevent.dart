@@ -2,46 +2,46 @@ import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-abstract class LyricsRequestEvent extends Equatable{
+abstract class LyricsEvent extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class GetSingleRequest extends LyricsRequestEvent{
+class GetSingleLyrics extends LyricsEvent{
   final int requestId;
-  GetSingleRequest({@required this.requestId}):assert(requestId!=null);
+  GetSingleLyrics({@required this.requestId}):assert(requestId!=null);
   @override
   // TODO: implement props
   List<Object> get props => [requestId];
 }
 
-class GetAllRequest extends LyricsRequestEvent{
+class GetAllLyrics extends LyricsEvent{
   // final int userId;
   // GetAllRequest({@required this.userId}):assert(userId!=null);
 }
 
-class CreateRequest extends LyricsRequestEvent{
+class CreateLyrics extends LyricsEvent{
   final Lyrics lyricsRequest;
-  CreateRequest({@required this.lyricsRequest}):assert(lyricsRequest!=null);
+  CreateLyrics({@required this.lyricsRequest}):assert(lyricsRequest!=null);
 
   @override
   // TODO: implement props
   List<Object> get props => [lyricsRequest];
 }
 
-class UpdateRequest extends LyricsRequestEvent{
+class UpdateLyrics extends LyricsEvent{
   final Lyrics lyricsRequest;
-  UpdateRequest({@required this.lyricsRequest}):assert(lyricsRequest!=null);
+  UpdateLyrics({@required this.lyricsRequest}):assert(lyricsRequest!=null);
 
   @override
   // TODO: implement props
   List<Object> get props => [lyricsRequest];
 }
 
-class DeleteRequest extends LyricsRequestEvent{
+class DeleteLyrics extends LyricsEvent{
   final int requestId;
-  DeleteRequest({@required this.requestId}):assert(requestId!=null);
+  DeleteLyrics({@required this.requestId}):assert(requestId!=null);
 
   @override
   // TODO: implement props

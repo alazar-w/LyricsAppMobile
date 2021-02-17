@@ -2,36 +2,36 @@ import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
-abstract class LyricsRequestState extends Equatable{
+abstract class LyricsState extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class IdleState extends LyricsRequestState{}
+class IdleState extends LyricsState{}
 
-class BusyState extends LyricsRequestState{}
+class BusyState extends LyricsState{}
 
-class FetchingBusyState extends LyricsRequestState{}
-class UpdatingBusyState extends LyricsRequestState{}
-class CreatingBusyState extends LyricsRequestState{}
+class FetchingBusyState extends LyricsState{}
+class UpdatingBusyState extends LyricsState{}
+class CreatingBusyState extends LyricsState{}
 
-class FetchedAllSuccessState extends LyricsRequestState{
+class FetchedAllSuccessState extends LyricsState{
   final List<Lyrics> requests;
   FetchedAllSuccessState({@required this.requests}):assert(requests!=null);
 }
 
-class SuccessState extends LyricsRequestState{}
+class SuccessState extends LyricsState{}
 
-class FailedState extends LyricsRequestState{}
-class FetchingFailedState extends LyricsRequestState{}
-class CreatingFailedState extends LyricsRequestState{}
-class UpdatingFailedState extends LyricsRequestState{}
+class FailedState extends LyricsState{}
+class FetchingFailedState extends LyricsState{}
+class CreatingFailedState extends LyricsState{}
+class UpdatingFailedState extends LyricsState{}
 
-class DeleteSuccessState extends LyricsRequestState{}
-class DeleteFailedState extends LyricsRequestState{}
+class DeleteSuccessState extends LyricsState{}
+class DeleteFailedState extends LyricsState{}
 
-class FetchedSingleSuccessState extends LyricsRequestState{
+class FetchedSingleSuccessState extends LyricsState{
   final Lyrics request;
   FetchedSingleSuccessState({@required this.request}):assert(request!=null);
   @override
@@ -39,7 +39,7 @@ class FetchedSingleSuccessState extends LyricsRequestState{
   List<Object> get props => [request];
 }
 
-class CreatedSuccessState extends LyricsRequestState{
+class CreatedSuccessState extends LyricsState{
   final Lyrics request;
   CreatedSuccessState({@required this.request}):assert(request!=null);
 
@@ -48,7 +48,7 @@ class CreatedSuccessState extends LyricsRequestState{
   List<Object> get props => [request];
 }
 
-class UpdatedSuccessState extends LyricsRequestState{
+class UpdatedSuccessState extends LyricsState{
   final Lyrics request;
   UpdatedSuccessState({@required this.request}):assert(request!=null);
 

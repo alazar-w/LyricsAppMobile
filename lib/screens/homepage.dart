@@ -145,8 +145,16 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ]),
-          )
+          ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.of(context).pushNamed('/addlyrics');
+          },
+          child: Icon(Icons.add),
+          backgroundColor: kPrimary,
+        ),
       ),
+
     );
   }
 

@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget{
            ),
            TextButton(onPressed: (){
              Navigator.of(context).pushNamed('/lyricsrequests');
-           }, child: Text('My Requests', style: TextStyle(color: Colors.black45),)),
+           }, child: Text('Add Lyrics', style: TextStyle(color: Colors.black45),)),
            Divider(
              color: Colors.black12,
              height: 2,
