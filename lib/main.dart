@@ -6,12 +6,12 @@ import 'screens/screens.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-
-  SignUpRepository _signUpRepository = SignUpRepository(signUpDataProvider: new SignUpDataProvider());
+  SignUpRepository _signUpRepository =
+      SignUpRepository(signUpDataProvider: new SignUpDataProvider());
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(create: (context) => SignUpBloc(signUpRepository: _signUpRepository))
-  ],
-  child: MyApp()));
+    BlocProvider(
+        create: (context) => SignUpBloc(signUpRepository: _signUpRepository))
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,20 +19,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        color: Theme.of(context).primaryColor,
-        title: 'Flutter Demo',
-        routes: {
-          '/': (context) => WelcomePage(),
-          '/login': (context) => LoginPage(),
-          '/signup': (context) => SignUpPage(),
-          '/home': (context) => HomePage(),
-          '/addlyrics': (context) => AddLyricsPage(),
-          '/addrequest': (context) => AddRequestPage(),
-          '/lyrics': (context) => LyricsPage(),
-        },
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: kPrimary,
-        ),);
+      color: Theme.of(context).primaryColor,
+      title: 'Flutter Demo',
+      initialRoute: '/home',
+      routes: {
+        '/': (context) => WelcomePage(),
+        '/login': (context) => LoginPage(),
+        '/signup': (context) => SignUpPage(),
+        '/home': (context) => HomePage(),
+        '/addlyrics': (context) => AddLyricsPage(),
+        '/addrequest': (context) => AddRequestPage(),
+        '/lyrics': (context) => LyricsPage(),
+      },
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: kPrimary,
+      ),
+    );
   }
 }
