@@ -11,7 +11,7 @@ class SignInDataProvider extends BaseDataProvider{
       'email':user.email,
       'password':user.password,
     });
-    //print(response.body);
+    print(response.body);
     if(response.statusCode==200){
       var rawResponse = jsonDecode(response.body)['response'];
       User user = User.fromJson(rawResponse['user']);
@@ -20,7 +20,6 @@ class SignInDataProvider extends BaseDataProvider{
       return user;
     }
     else{
-
       throw Exception('SomeThing Went Wrong!');
     }
 

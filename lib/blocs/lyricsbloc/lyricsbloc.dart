@@ -1,34 +1,100 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsEvent.dart';
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsstate.dart';
-import 'package:dalvic_lyrics_sharing_app/models/Lyrics.dart';
-import 'package:dalvic_lyrics_sharing_app/repository/lyricsRepository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
+import 'package:dalvic_lyrics_sharing_app/repository/lyricsrepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/foundation.dart';
 
-class LyricsBloc extends Bloc<LyricsEvents, LyricsState> {
-  LyricsRepository lyricsRepository;
-  LyricsBloc({@required this.lyricsRepository})
-      : assert(lyricsRepository != null),
-        super(LyricsIdleState());
+import 'lyricsevent.dart';
+import 'lyricsstate.dart';
 
+class LyricsBloc extends Bloc<LyricsEvent, LyricsState>{
+  final LyricsRepository lyricsRepository;
+  LyricsBloc({@required this.lyricsRepository}):assert(lyricsRepository!=null),super(IdleState());
+
+  //async* represent stream,we use yield with it as we have many stream of data's to return
   @override
-  Stream<LyricsState> mapEventToState(LyricsEvents event) async* {
+  Stream<LyricsState> mapEventToState(LyricsEvent event) async* {
+    print("map event to state");
     // TODO: implement mapEventToState
-    try {
-      if (event is CreateLyricsEvent) {
-        yield LyricsBusyState();
+    try{
+      if(event is GetAllLyrics){
+        try{
+          yield FetchingBusyState();
+          print("getting data");
+          List<Lyrics> lyricss = await lyricsRepository.getAllLyrics();
+          yield FetchedAllSuccessState(lyricss: lyricss);
+        }catch(error){
+          print(error);
+          yield FetchingFailedState();
+        }
 
-        await lyricsRepository.CreateLyrics(event.lyrics);
-        yield LyricsCreateSuccessState();
-      } else if (event is GetAllLyrics) {
-        List<Lyrics> lyrics = await lyricsRepository.GetLyrics();
-        print(lyrics);
-        yield LyricsSuccesState(lyrics);
       }
-    } catch (error, stacktrace) {
+      else if(event is CreateLyrics){
+        try{
+          print("did u get here");
+          yield CreatingBusyState();
+          print("did u get here 2");
+          Lyrics lyricsRequest = await lyricsRepository.createLyrics(lyrics: event.lyrics);
+          print("did u get here 3");
+          yield CreatedSuccessState(lyrics: lyricsRequest);
+        }catch(error, stacktrace){
+          print(stacktrace);
+          yield CreatingFailedState();
+        }
+
+      }
+      else if(event is UpdateLyrics){
+        try{
+          yield UpdatingBusyState();
+          Lyrics lyricsRequest = await lyricsRepository.updateLyrics(lyrics: event.lyrics);
+          yield UpdatedSuccessState(lyrics: lyricsRequest);
+        }catch(error){
+          print(error);
+          yield UpdatingFailedState();
+        }
+      }
+      else if(event is DeleteLyrics){
+        try{
+          await lyricsRepository.deleteLyrics(lyricsId: event.lyricsId);
+          yield DeleteSuccessState();
+        }catch(error){
+          print(error);
+          yield DeleteFailedState();
+        }
+      }
+      else if(event is DeleteMyLyrics){
+        try{
+          await lyricsRepository.deleteLyrics(lyricsId: event.lyricsId);
+          yield DeleteMyLyricsSuccesState();
+        }catch(error){
+          print(error);
+          yield DeleteMyLyricsFailedState();
+        }
+      }
+      else if(event is UpdateMyLyrics) {
+        try {
+          yield UpdateMyLyricsBusyState();
+          Lyrics lyrics = await lyricsRepository.updateMyLyrics(
+              lyrics: event.lyrics);
+          yield UpdateMyLyricsSuccessState(lyrics: lyrics);
+        } catch (error) {
+          print(error);
+          yield UpdateMyLyricsFailedState();
+        }
+      }
+      else if(event is GetMyLyrics){
+        try{
+          yield GetMyLyricsBusyState();
+          var lyricss = await lyricsRepository.getMyLyrics();
+          yield GetMyLyricsSuccessState(lyricss: lyricss);
+        }catch(error){
+          print(error);
+          yield GetMyLyricsFailedState();
+        }
+      }
+    }catch(error){
       print(error);
-      print(stacktrace);
-      yield LyricsFailedState(errorMessage: 'Lyrics Creation Failed!');
+      yield FailedState();
     }
+
   }
 }

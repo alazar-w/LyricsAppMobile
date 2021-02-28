@@ -10,8 +10,9 @@ import 'package:dalvic_lyrics_sharing_app/data_provider/lyricsrequestdataprovide
 import 'package:dalvic_lyrics_sharing_app/data_provider/data_provider.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/lyricsrequestrepository.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/lyricsrequestspage.dart';
-import 'package:dalvic_lyrics_sharing_app/repository/lyricsRepository.dart';
+import 'package:dalvic_lyrics_sharing_app/repository/lyricsrepository.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/signinrepository.dart';
+import 'package:dalvic_lyrics_sharing_app/screens/mylyricspage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
         '/lyrics': (context) => LyricsPage(),
         '/profile': (context) => ProfilePage(),
         '/lyricsrequests': (context) => LyricsRequestsPage(),
+        '/mylyrics':(context)=>MyLyricsPage(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

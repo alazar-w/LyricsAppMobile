@@ -1,8 +1,8 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsEvent.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsevent.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsstate.dart';
 import 'package:dalvic_lyrics_sharing_app/helper/constants.dart';
-import 'package:dalvic_lyrics_sharing_app/models/Lyrics.dart';
+import 'package:dalvic_lyrics_sharing_app/models/lyrics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -161,15 +161,15 @@ class _AddLyricsPageState extends State<AddLyricsPage> {
                                   padding: const EdgeInsets.symmetric(vertical:8.0),
                                   child: BlocConsumer<LyricsBloc, LyricsState>(
                                     listener: (context, state){
-                                      if(state is LyricsFailedState){
-                                        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('${state.errorMessage}')));
-                                      }else if(state is LyricsCreateSuccessState){
+                                      if(state is CreatingFailedState){
+                                        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Failed to submit lyrics')));
+                                      }else if(state is SuccessState){
                                         _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Successfully submitted')));
                                         BlocProvider.of<LyricsBloc>(context)..add(GetAllLyrics());
                                       }
                                     },
                                     builder: (context, state){
-                                      if(state is LyricsBusyState){
+                                      if(state is BusyState){
                                         return SpinKitWave(color: kPrimary,size: 25,);
                                       }
                                       return FlatButton(
@@ -182,7 +182,7 @@ class _AddLyricsPageState extends State<AddLyricsPage> {
                                               // user.name = name;
                                               // user.email = email;
                                               // user.password = password;
-                                              BlocProvider.of<LyricsBloc>(context)..add(CreateLyricsEvent(lyrics: lyrics));
+                                              BlocProvider.of<LyricsBloc>(context)..add(CreateLyrics(lyrics: lyrics));
                                             }
                                           },
                                           color: kPrimary,
