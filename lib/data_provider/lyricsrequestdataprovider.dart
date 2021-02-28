@@ -2,16 +2,21 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dalvic_lyrics_sharing_app/data_provider/BaseDataProvider.dart';
+import 'package:dalvic_lyrics_sharing_app/helper/localhelper.dart';
 import 'package:dalvic_lyrics_sharing_app/models/lyricsrequest.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 class LyricsRequestDataProvider extends BaseDataProvider{
   final http.Client httpClient;
-  LyricsRequestDataProvider({@required this.httpClient}):assert(httpClient!=null);
+  final LocalHelper localHelper;
+
+
+  LyricsRequestDataProvider({@required this.httpClient, @required this.localHelper}):assert(httpClient!=null&&localHelper!=null);
 
   Future<List<LyricsRequest>> getAllLyricsRequest() async {
-    var response = await httpClient.get('$baseUrl/lyricsRequest', headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+    print('user_id: ${localHelper.getUser().id}');
+    var response = await httpClient.get('$baseUrl/userlyricsrequest/${localHelper.getUser().id}', headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
     List<LyricsRequest> lyricsRequests = new List<LyricsRequest>();
 
     List<dynamic> rawData = jsonDecode(response.body)["data"];
@@ -30,7 +35,7 @@ class LyricsRequestDataProvider extends BaseDataProvider{
       "music_name": request.musicName,
       "artist_name": request.artistName,
       "url": request.url,
-    },headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+    },headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
     print(response.body);
     LyricsRequest lyricsRequest = LyricsRequest.fromJson(jsonDecode(response.body)["response"]["requestedLyrics"]);
     return lyricsRequest;
@@ -42,14 +47,14 @@ class LyricsRequestDataProvider extends BaseDataProvider{
       "artist_name": request.artistName,
       "url": request.url,
       "_method": "PUT",
-    },headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+    },headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
     print(response.body);
     LyricsRequest lyricsRequest = LyricsRequest.fromJson(jsonDecode(response.body)["data"]);
     return lyricsRequest;
   }
 
   Future<void> deleteRequest({int requestId}) async {
-    var response = await httpClient.delete('$baseUrl/lyricsRequest/$requestId', headers: {HttpHeaders.authorizationHeader: "Bearer 7|Aapx3SyX9PnKyNakMp4581imSeqDpI7T9R5xH3lF"});
+    var response = await httpClient.delete('$baseUrl/lyricsRequest/$requestId', headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
     if(response.statusCode == 200){
       return null;
     }else{

@@ -12,7 +12,6 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
   Stream<LyricsRequestState> mapEventToState(LyricsRequestEvent event) async* {
     print("map event to state");
     // TODO: implement mapEventToState
-    try{
       if(event is GetAllRequest){
         try{
           yield FetchingBusyState();
@@ -55,9 +54,6 @@ class LyricsRequestBloc extends Bloc<LyricsRequestEvent, LyricsRequestState>{
           yield DeleteFailedState();
         }
       }
-    }catch(error){
-      print(error);
-      yield FailedState();
-    }
+
   }
 }

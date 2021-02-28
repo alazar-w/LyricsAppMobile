@@ -1,170 +1,232 @@
+import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationbloc.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/homepagebloc/homepagebloc.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/homepagebloc/homepagestate.dart';
 import 'package:dalvic_lyrics_sharing_app/helper/constants.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/addlyricspage.dart';
+import 'package:dalvic_lyrics_sharing_app/widgets/lyricslistitem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String pathName = '/home';
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  DateTime currentBackPressTime;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
-        child: Scaffold(
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 25),
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Text(
-                    'Find Lyrics',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/profile');
-                      },
-                      icon: Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                      )),
-                )
-              ],
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.symmetric(vertical: 24),
-              height: 50,
-              color: kPrimaryLight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Search',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  )
-                ],
-              ),
-            ),
-            SingleChildScrollView(
-              child: Center(
-                child: Container(
-                  //width: MediaQuery.of(context).size.width*0.8,
-                  child: Column(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: WillPopScope(
+        onWillPop: (){
+          DateTime now = DateTime.now();
+          if (currentBackPressTime == null ||
+              now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+            currentBackPressTime = now;
+            Fluttertoast.showToast(msg: "press back again to exit");
+            return Future.value(false);
+          }
+          return Future.value(true);
+        },
+        child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text('Find Lyrics', style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                      //     IconButton(
-                      //         icon: Icon(Icons.account_circle_sharp), onPressed: null)
-                      // ],),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Container(
+                          //   child: Text(
+                          //     'Find Lyrics',
+                          //     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                          //   ),
+                          // ),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.symmetric(vertical: 24),
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  color: kPrimaryLight,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Search',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  Icon(
+                                    Icons.search,
+                                    color: Colors.grey,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 30.0,
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/profile');
+                                  },
+                                  icon: Icon(
+                                    Icons.person,
+                                    color: Colors.grey,
+                                  )),
+                              ),
+                              SizedBox(
+                                width: 30.0,
+                                child: IconButton(
+                                    onPressed: () async {
+                                      // Navigator.pushNamed(context, '/l');
+                                      showDialog(
+                                        context: context,
+                                        builder: (context){
+                                          return AlertDialog(
+                                            title: Text('Logout', style: TextStyle(color: kPrimary),),
+                                            content: Text(
+                                              'Are you sure?'
+                                            ),
+                                            actions: [
+                                              TextButton(onPressed: (){
+                                                Navigator.of(context).pop();
+                                              }, child: Text('No')),
+                                              TextButton(onPressed: (){
+                                                BlocProvider.of<AuthenticationBloc>(context).add(Logout());
+                                                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                                              }, child: Text('Yes'))
+                                            ],
+                                          );
+                                        }
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.exit_to_app_rounded,
+                                      color: Colors.grey,
+                                    )),
+                              ),
+                            ]
+                          )
+                        ],
+                      ),
                       // Container(
-                      //   height: 30,
-                      //   color: Colors.grey,
+                      //   padding: EdgeInsets.all(10),
+                      //   margin: EdgeInsets.symmetric(vertical: 24),
+                      //   height: 60,
+                      //   color: kPrimaryLight,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text(
+                      //         'Search',
+                      //         style: TextStyle(color: Colors.grey),
+                      //       ),
+                      //       Icon(
+                      //         Icons.search,
+                      //         color: Colors.grey,
+                      //       )
+                      //     ],
+                      //   ),
                       // ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        height: 120.0,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(bottom: 10.0),
+                        child: Stack(
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                color: kPrimary,
-                                shape: BoxShape.circle,
+                                width: double.infinity,
+                                child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    child: Image.asset(
+                                      'assets/images/banner.jpg',
+                                      fit: BoxFit.cover,
+                                    ))),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                height: 120.0,
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [kPrimary, Colors.black.withOpacity(0.0)]
+                                  )
+                                ),
                               ),
-                              child: IconButton(
-                                  icon: Icon(
-                                Icons.music_note_rounded,
-                                color: Colors.white,
-                              )),
                             ),
-                            Expanded(
+                            Align(
+                              alignment: Alignment.bottomCenter,
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Malan Jira',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    Text(
-                                      'gjihhgqgqljg',
-                                      style: TextStyle(color: Colors.grey),
-                                    )
-                                  ],
-                                ),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Dalvic Lyrics Sharing', style:TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)),
                               ),
-                            ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.favorite_border_sharp,
-                                  color: Colors.black,
-                                ),
-                                onPressed: null)
+                            )
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: kPrimary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: IconButton(
-                                  icon: Icon(
-                                Icons.music_note_rounded,
-                                color: Colors.white,
-                              )),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Malan Jira',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    Text(
-                                      'gjihhgqgqljg',
-                                      style: TextStyle(color: Colors.grey),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.favorite_border_sharp,
-                                  color: Colors.black,
-                                ),
-                                onPressed: null)
-                          ],
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text(
+                          'Lyrics',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                      BlocBuilder<HomePageBloc, HomepageState>(
+                        builder: (context, state) {
+                          if (state is HomepageSuccessState) {
+                            return ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: state.lyrics.length,
+                                itemBuilder: (context, index) => LyricsListItem(
+                                      lyrics: state.lyrics[index],
+                                    ));
+                          } else if (state is HomepageBusyState) {
+                            return SpinKitWave(
+                              color: kPrimary,
+                              size: 25,
+                            );
+                          } else {
+                            return Center(
+                              child: GestureDetector(
+                                  onTap: () {
+                                    BlocProvider.of<HomePageBloc>(context)
+                                        .add(HomepageEvent.GetLyrics);
+                                  },
+                                  child: Text("Failed click to retry")),
+                            );
+                          }
+                        },
+                      )
+                    ]),
               ),
-            ),
-          ])),
+            )),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, AddLyricsPage.routeName);
@@ -172,6 +234,6 @@ class HomePage extends StatelessWidget {
         child: Icon(Icons.add),
         backgroundColor: kPrimary,
       ),
-    ));
+    );
   }
 }

@@ -34,7 +34,7 @@ class _AddLyricsPageState extends State<AddLyricsPage> {
               children: [
                 Row(
                     children: [
-                      Icon(Icons.arrow_back),
+                      IconButton(icon: Icon(Icons.arrow_back), onPressed: (){Navigator.of(context).pop();},),
                       Container(
                         padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.2),
                         child: Text(
@@ -42,8 +42,6 @@ class _AddLyricsPageState extends State<AddLyricsPage> {
                           style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                         ),
                       ),
-
-
                     ],
                   ),
                 Expanded(

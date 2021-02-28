@@ -26,7 +26,12 @@ class ProfilePage extends StatelessWidget{
            Divider(
              color: Colors.black12,
              height: 2,
-           )
+           ),
+           Divider(
+             color: Colors.black12,
+             height: 2,
+           ),
+
          ],
        ),
      ),

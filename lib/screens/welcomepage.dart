@@ -90,17 +90,18 @@ class WelcomePage extends StatelessWidget{
             ),
             Row( mainAxisAlignment:  MainAxisAlignment.center,
               children: [
-                Text("continue as ",
+                Text("Continue as ",
 
                 style: TextStyle(
                 color: Colors.black54,
             ),),
                 GestureDetector(onTap: (){
-                  Navigator.of(context).pushNamed('/home');
+                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
                 },
-                  child: Text("guest",
+                  child: Text("Guest",
                     style: TextStyle(
                       color: kPrimary,
+                      fontWeight: FontWeight.bold
                     ),),
                 )
               ],

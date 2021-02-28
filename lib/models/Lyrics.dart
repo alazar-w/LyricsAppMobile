@@ -14,8 +14,8 @@ class Lyrics extends Equatable{
   factory Lyrics.fromJson(Map<String, dynamic> json){
     return Lyrics(
       id: json['id'],
-      musicName: json['musicName'],
-      artistName: json['artistName'],
+      musicName: json['music_name'],
+      artistName: json['artist_name'],
       lyrics: json['lyrics'],
       status: json['status'],
       url: json['url'],

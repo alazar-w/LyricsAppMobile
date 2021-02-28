@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                                               _password = newVal;
                                             });
                                           },
-                                          obscureText: _showPassword,
+                                          obscureText: !_showPassword,
                                           decoration: InputDecoration(
                                             suffixIcon: IconButton(
                                               onPressed: () {
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                                     else if(state is SignInSuccesState){
                                       _scaffoldKey.currentState.showSnackBar(SnackBar(content : Text('logged in succesfully!')));
                                       BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user));
-                                      Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, ModalRoute.withName('/'));
+                                      Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, (route) => false);
                                     }
                                   },
                                   builder: (context ,state){
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                                         Text('Don\'t have account '),
                                         TextButton(
                                             onPressed: () {
-                                              Navigator.of(context).pushNamed('/signup');
+                                              Navigator.of(context).pushReplacementNamed('/signup');
                                             },
                                             child: Text(
                                               'Sign up',

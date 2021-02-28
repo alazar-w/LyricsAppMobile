@@ -163,7 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           }else if(state is SuccessState){
                             _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Registration Successful')));
                             BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user));
-                            Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, ModalRoute.withName('/'));
+                            Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, (route) => false);
                           }
                         },
                         builder: (context, state){
@@ -195,15 +195,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Already have an account '),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('/login');
-                              },
-                              child: Text(
-                                'Login',
-                                style: TextStyle(color: kPrimary),
-                              ))
+                          Text('Already have an account'),
+                          Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacementNamed('/login');
+                                },
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(color: kPrimary),
+                                )),
+                          )
                         ],
                       ),
                     )

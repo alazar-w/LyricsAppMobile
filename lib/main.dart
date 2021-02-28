@@ -1,4 +1,5 @@
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationbloc.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/homepagebloc/homepagebloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationstate.dart';
@@ -8,6 +9,9 @@ import 'package:dalvic_lyrics_sharing_app/blocs/signupbloc/signup.dart';
 import 'package:dalvic_lyrics_sharing_app/constants.dart';
 import 'package:dalvic_lyrics_sharing_app/data_provider/lyricsrequestdataprovider.dart';
 import 'package:dalvic_lyrics_sharing_app/data_provider/data_provider.dart';
+import 'package:dalvic_lyrics_sharing_app/helper/localhelper.dart';
+import 'package:dalvic_lyrics_sharing_app/models/Lyrics.dart';
+import 'package:dalvic_lyrics_sharing_app/repository/homepagerepository.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/lyricsrequestrepository.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/lyricsrequestspage.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/lyricsRepository.dart';
@@ -21,20 +25,24 @@ import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+  LocalHelper localHelper = LocalHelper(sharedPreferences: _sharedPreferences);
+  LyricsDataProvider _lyricsDataProvider = LyricsDataProvider(
+    httpClient: http.Client(),
+    localHelper: localHelper,
+  );
   LyricsRequestRepository _lyricsRequestRepository =
       new LyricsRequestRepository(
           dataProvider:
-              new LyricsRequestDataProvider(httpClient: http.Client()));
+              new LyricsRequestDataProvider(httpClient: http.Client(), localHelper: localHelper));
   SignUpRepository _signUpRepository =
       SignUpRepository(signUpDataProvider: new SignUpDataProvider());
   SignInRepository _signInRepository =
       SignInRepository(signInDataProvider: new SignInDataProvider());
-  final LyricsRepository lyricsRepository = LyricsRepository(
-    dataProvider: LyricsDataProvider(
-      httpClient: http.Client(),
-    ),
+  LyricsRepository lyricsRepository = LyricsRepository(
+    dataProvider: _lyricsDataProvider,
   );
-  SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
         create: (context) => SignUpBloc(signUpRepository: _signUpRepository)),
@@ -50,6 +58,7 @@ void main() async {
         create: (context) => LyricsBloc(lyricsRepository: lyricsRepository)),
     BlocProvider(
         create: (context) => SignInBloc(signInRepository: _signInRepository)),
+    BlocProvider(create: (context) => HomePageBloc(homePageRepository: HomepageRepository(lyricsDataProvider: _lyricsDataProvider))..add(HomepageEvent.GetLyrics))
   ], child: MyApp()));
 }
 
@@ -69,9 +78,15 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/addlyrics': (context) => AddLyricsPage(),
         '/addrequest': (context) => AddRequestPage(),
-        '/lyrics': (context) => LyricsPage(),
         '/profile': (context) => ProfilePage(),
         '/lyricsrequests': (context) => LyricsRequestsPage(),
+      },
+      onGenerateRoute: (settings){
+        if(settings.name == LyricsPage.routeName){
+          Lyrics arg = settings.arguments;
+          return MaterialPageRoute(builder: (ctx) => LyricsPage(lyrics: arg));
+        }
+        return null;
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

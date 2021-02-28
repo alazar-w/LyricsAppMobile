@@ -17,7 +17,6 @@ class LyricsBloc extends Bloc<LyricsEvents, LyricsState> {
     try {
       if (event is CreateLyricsEvent) {
         yield LyricsBusyState();
-
         await lyricsRepository.CreateLyrics(event.lyrics);
         yield LyricsCreateSuccessState();
       } else if (event is GetAllLyrics) {
