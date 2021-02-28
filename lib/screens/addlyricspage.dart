@@ -1,6 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsEvent.dart';
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsbloc.dart';
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsstate.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsb.dart';
 import 'package:dalvic_lyrics_sharing_app/helper/constants.dart';
 import 'package:dalvic_lyrics_sharing_app/models/Lyrics.dart';
 import 'package:flutter/material.dart';

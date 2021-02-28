@@ -13,4 +13,16 @@ class LyricsRepository {
   Future<List<Lyrics>> GetLyrics() async {
     return await dataProvider.getLyrics();
   }
+
+  Future<List<Lyrics>> getMyLyrics() async {
+    return await dataProvider.getMyLyrics();
+  }
+
+  Future<Lyrics> updateMyLyrics({Lyrics lyrics}) async {
+    return await dataProvider.updateMyLyrics(lyrics: lyrics);
+  }
+
+  Future<void> deleteLyrics({int lyricsId}) async {
+    return await dataProvider.deleteLyrics(lyricsId: lyricsId);
+  }
 }

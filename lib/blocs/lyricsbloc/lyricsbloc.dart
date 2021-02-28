@@ -1,5 +1,4 @@
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsEvent.dart';
-import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsstate.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsb.dart';
 import 'package:dalvic_lyrics_sharing_app/models/Lyrics.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/lyricsRepository.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,6 +22,36 @@ class LyricsBloc extends Bloc<LyricsEvents, LyricsState> {
         List<Lyrics> lyrics = await lyricsRepository.GetLyrics();
         print(lyrics);
         yield LyricsSuccesState(lyrics);
+      }
+      else if(event is DeleteMyLyrics){
+        try{
+          await lyricsRepository.deleteLyrics(lyricsId: event.lyricsId);
+          yield DeleteMyLyricsSuccesState();
+        }catch(error){
+          print(error);
+          yield DeleteMyLyricsFailedState();
+        }
+      }
+      else if(event is UpdateMyLyrics) {
+        try {
+          yield UpdateMyLyricsBusyState();
+          Lyrics lyrics = await lyricsRepository.updateMyLyrics(
+              lyrics: event.lyrics);
+          yield UpdateMyLyricsSuccessState(lyrics: lyrics);
+        } catch (error) {
+          print(error);
+          yield UpdateMyLyricsFailedState();
+        }
+      }
+      else if(event is GetMyLyrics){
+        try{
+          yield GetMyLyricsBusyState();
+          var lyricss = await lyricsRepository.getMyLyrics();
+          yield GetMyLyricsSuccessState(lyricss: lyricss);
+        }catch(error){
+          print(error);
+          yield GetMyLyricsFailedState();
+        }
       }
     } catch (error, stacktrace) {
       print(error);

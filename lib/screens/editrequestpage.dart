@@ -41,18 +41,19 @@ class _EditRequestPageState extends State<EditRequestPage> {
                 children: [
                   Row(
                     children: [
-                      GestureDetector(
-                        onTap: () {
+                      IconButton(
+                        onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Icon(Icons.arrow_back),
+                        icon: Icon(Icons.arrow_back),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 65),
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.2),
                         child: Text("Edit Request",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 28,
+                              fontSize: 20,
                             )),
                       ),
                     ],

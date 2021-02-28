@@ -2,7 +2,6 @@ import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticatio
 import 'package:dalvic_lyrics_sharing_app/blocs/homepagebloc/homepagebloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
-import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationstate.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/lyricsrequestbloc/lyricsrequest.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signupbloc/signup.dart';
@@ -16,12 +15,12 @@ import 'package:dalvic_lyrics_sharing_app/repository/lyricsrequestrepository.dar
 import 'package:dalvic_lyrics_sharing_app/screens/lyricsrequestspage.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/lyricsRepository.dart';
 import 'package:dalvic_lyrics_sharing_app/repository/signinrepository.dart';
+import 'package:dalvic_lyrics_sharing_app/screens/mylyricspage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/screens.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,6 +79,8 @@ class MyApp extends StatelessWidget {
         '/addrequest': (context) => AddRequestPage(),
         '/profile': (context) => ProfilePage(),
         '/lyricsrequests': (context) => LyricsRequestsPage(),
+        '/mylyrics':(context)=>MyLyricsPage(),
+
       },
       onGenerateRoute: (settings){
         if(settings.name == LyricsPage.routeName){

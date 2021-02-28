@@ -17,5 +17,27 @@ class CreateLyricsEvent extends LyricsEvents{
 
 }
 class GetAllLyrics extends LyricsEvents{
+}
+
+class GetMyLyrics extends LyricsEvents{
+}
+
+class DeleteMyLyrics extends LyricsEvents{
+  final int lyricsId;
+  DeleteMyLyrics({@required this.lyricsId}):assert(lyricsId!=null);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [lyricsId];
+}
+
+class UpdateMyLyrics extends LyricsEvents{
+  final Lyrics lyrics;
+  UpdateMyLyrics({@required this.lyrics}):assert(lyrics!=null);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [lyrics];
 
 }
+

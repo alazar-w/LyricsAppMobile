@@ -14,6 +14,36 @@ class LyricsDataProvider extends BaseDataProvider{
   final LocalHelper localHelper;
 
   LyricsDataProvider({@required this.httpClient, @required this.localHelper}):assert(httpClient!=null);
+  Future<List<Lyrics>> getMyLyrics() async {
+    //the await keyword to get the completed result of an asynchronous expression. The await keyword only works within an async function.
+    var response = await httpClient.get('$baseUrl/userlyrics/${localHelper.getUser().id}', headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
+    List<Lyrics> lyrics = new List<Lyrics>();
+
+    //Manual JSON decoding refers to using the built-in JSON decoder in dart:convert.
+    //It involves passing the raw JSON string to the jsonDecode() function, and then looking up the values you need in the resulting Map<String, dynamic>.
+    List<dynamic> rawData = jsonDecode(response.body)["data"];
+    rawData.forEach((element) {
+      lyrics.add(Lyrics.fromJson(element));
+    });
+    // for(int i = 0; i < rawData.length; i++){
+    //   lyrics.add(Lyricslyrics.fromJson(rawData[i]));
+    // }
+    print(lyrics);
+    return lyrics;
+  }
+
+  Future<Lyrics> updateMyLyrics({Lyrics lyrics}) async {
+    var response = await httpClient.post('$baseUrl/lyrics/${lyrics.id}', body: {
+      "music_name": lyrics.musicName,
+      "artist_name": lyrics.artistName,
+      "lyrics":lyrics.lyrics,
+      "url": lyrics.url,
+      "_method": "PUT",
+    },headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
+    print(response.body);
+    Lyrics lyric = Lyrics.fromJson(jsonDecode(response.body)["data"]);
+    return lyric;
+  }
 
   Future<Lyrics> CreateLyrics(Lyrics lyrics) async{
     print("name: ${lyrics.artistName}");
@@ -68,6 +98,15 @@ class LyricsDataProvider extends BaseDataProvider{
       return lyrics.map((lyrics) => Lyrics.fromJson(lyrics)).toList();
     } else {
       throw Exception('Failed to load lyrics');
+    }
+  }
+
+  Future<void> deleteLyrics({int lyricsId}) async {
+    var response = await httpClient.delete('$baseUrl/lyrics/$lyricsId', headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
+    if(response.statusCode == 200){
+      return null;
+    }else{
+      throw Exception("Failed deleting lyrics lyrics");
     }
   }
 
