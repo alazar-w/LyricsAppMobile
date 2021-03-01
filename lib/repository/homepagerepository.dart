@@ -1,5 +1,6 @@
 import 'package:dalvic_lyrics_sharing_app/data_provider/data_provider.dart';
 import 'package:dalvic_lyrics_sharing_app/models/Lyrics.dart';
+import 'package:dalvic_lyrics_sharing_app/models/hompagestat.dart';
 import 'package:flutter/foundation.dart';
 
 class HomepageRepository{
@@ -8,5 +9,9 @@ class HomepageRepository{
 
   Future<List<Lyrics>> getAllLyrics({page=1}) async{
     return await lyricsDataProvider.getAllLyrics(page: page);
+  }
+
+  Future<HomepageStat> getHomepageStat() async {
+    return await lyricsDataProvider.getHomepageStat();
   }
 }

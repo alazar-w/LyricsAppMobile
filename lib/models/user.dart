@@ -32,7 +32,8 @@ class User {
       'id': id,
       'email': email,
       'name': name,
-      'token': token
+      'token': token,
+      'isAdmin': isAdmin
     };
   }
 

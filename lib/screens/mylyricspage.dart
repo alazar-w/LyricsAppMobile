@@ -92,7 +92,7 @@ class MyLyricsPage extends StatelessWidget {
             child: GestureDetector(
                 onTap: () {
                   BlocProvider.of<LyricsBloc>(context)
-                    ..add(GetAllLyrics());
+                    ..add(GetMyLyrics());
                 },
                 child: Text('Failed, click to retry')),
           );

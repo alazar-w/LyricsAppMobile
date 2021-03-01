@@ -1,5 +1,6 @@
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/homepagebloc/homepagebloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinevent.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/signinbloc/signinstate.dart';
@@ -130,7 +131,12 @@ class _LoginPageState extends State<LoginPage> {
                                     }
                                     else if(state is SignInSuccesState){
                                       _scaffoldKey.currentState.showSnackBar(SnackBar(content : Text('logged in succesfully!')));
-                                      BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user));
+                                      BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user))..add(InitEvent());
+                                      if(state.user.isAdmin){
+                                        BlocProvider.of<HomePageBloc>(context)..add(HomepageEvent.GetLyrics)..add(HomepageEvent.GetTotalStatus);
+                                      }else{
+                                        BlocProvider.of<HomePageBloc>(context)..add(HomepageEvent.GetLyrics);
+                                      }
                                       Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, (route) => false);
                                     }
                                   },
@@ -169,7 +175,6 @@ class _LoginPageState extends State<LoginPage> {
                                             ))
                                       ],
                                     ),
-
                                       ])))]))))
     ])));}
 

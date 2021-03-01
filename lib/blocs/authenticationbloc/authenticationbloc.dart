@@ -22,7 +22,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
           yield Unauthenticated();
         }else{
           print("authenticated");
-          yield Authenticated(user: User.fromJson(jsonDecode(rawUser)));
+          yield Authenticated(user: User.fromJsonComplete(jsonDecode(rawUser)));
         }
       }
       else if(event is SaveAuthenticationInfo){

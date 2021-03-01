@@ -31,7 +31,7 @@ class LyricsPage extends StatelessWidget {
               ),
             ),
           ),
-          actions: [IconButton(icon: Icon(Icons.favorite_border,color: Colors.white,), onPressed: null, padding: EdgeInsets.zero,)],
+          // actions: [IconButton(icon: Icon(Icons.favorite_border,color: Colors.white,), onPressed: null, padding: EdgeInsets.zero,)],
           elevation: 0.0,
         ),
         extendBodyBehindAppBar: true,

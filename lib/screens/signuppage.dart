@@ -162,7 +162,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('${state.errorMessage}')));
                           }else if(state is SuccessState){
                             _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Registration Successful')));
-                            BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user));
+                            BlocProvider.of<AuthenticationBloc>(context)..add(SaveAuthenticationInfo(user: state.user))..add(InitEvent());
                             Navigator.of(context).pushNamedAndRemoveUntil(HomePage.pathName, (route) => false);
                           }
                         },

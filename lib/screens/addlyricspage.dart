@@ -161,7 +161,7 @@ class _AddLyricsPageState extends State<AddLyricsPage> {
                                         _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('${state.errorMessage}')));
                                       }else if(state is LyricsCreateSuccessState){
                                         _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Successfully submitted')));
-                                        BlocProvider.of<LyricsBloc>(context)..add(GetAllLyrics());
+                                        BlocProvider.of<LyricsBloc>(context)..add(GetMyLyrics());
                                       }
                                     },
                                     builder: (context, state){

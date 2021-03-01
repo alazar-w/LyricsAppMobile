@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dalvic_lyrics_sharing_app/data_provider/BaseDataProvider.dart';
 import 'package:dalvic_lyrics_sharing_app/helper/localhelper.dart';
 import 'package:dalvic_lyrics_sharing_app/models/Lyrics.dart';
+import 'package:dalvic_lyrics_sharing_app/models/hompagestat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -110,5 +111,14 @@ class LyricsDataProvider extends BaseDataProvider{
     }
   }
 
-
+  Future<HomepageStat> getHomepageStat() async {
+    var response = await httpClient.get('$baseUrl/admin/totalstatus', headers: {HttpHeaders.authorizationHeader: "Bearer ${localHelper.getUser().token}"});
+    print(response.body);
+    if(response.statusCode == 200){
+      HomepageStat stat = HomepageStat.fromJson(jsonDecode(response.body));
+      return stat;
+    }else{
+      throw Exception("Failed to fetch homepage stat");
+    }
+  }
 }

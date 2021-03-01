@@ -1,9 +1,12 @@
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationbloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationevent.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/authenticationbloc/authenticationstate.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/homepagebloc/homepagebloc.dart';
 import 'package:dalvic_lyrics_sharing_app/blocs/homepagebloc/homepagestate.dart';
+import 'package:dalvic_lyrics_sharing_app/blocs/lyricsbloc/lyricsb.dart';
 import 'package:dalvic_lyrics_sharing_app/helper/constants.dart';
 import 'package:dalvic_lyrics_sharing_app/screens/addlyricspage.dart';
+import 'package:dalvic_lyrics_sharing_app/widgets/dashboardcard.dart';
 import 'package:dalvic_lyrics_sharing_app/widgets/lyricslistitem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,10 +23,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DateTime currentBackPressTime;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: WillPopScope(
         onWillPop: (){
@@ -76,73 +81,145 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 30.0,
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/profile');
-                                  },
-                                  icon: Icon(
-                                    Icons.person,
-                                    color: Colors.grey,
-                                  )),
-                              ),
-                              SizedBox(
-                                width: 30.0,
-                                child: IconButton(
-                                    onPressed: () async {
-                                      // Navigator.pushNamed(context, '/l');
-                                      showDialog(
-                                        context: context,
-                                        builder: (context){
-                                          return AlertDialog(
-                                            title: Text('Logout', style: TextStyle(color: kPrimary),),
-                                            content: Text(
-                                              'Are you sure?'
-                                            ),
-                                            actions: [
-                                              TextButton(onPressed: (){
-                                                Navigator.of(context).pop();
-                                              }, child: Text('No')),
-                                              TextButton(onPressed: (){
-                                                BlocProvider.of<AuthenticationBloc>(context).add(Logout());
-                                                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-                                              }, child: Text('Yes'))
-                                            ],
-                                          );
-                                        }
-                                      );
-                                    },
-                                    icon: Icon(
-                                      Icons.exit_to_app_rounded,
-                                      color: Colors.grey,
-                                    )),
-                              ),
-                            ]
+                            BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                            builder: (context, state) {
+                              if (state is Authenticated)
+                                return Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 30.0,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                  context, '/profile');
+                                            },
+                                            icon: Icon(
+                                              Icons.person,
+                                              color: Colors.grey,
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width: 30.0,
+                                        child: IconButton(
+                                            onPressed: () async {
+                                              // Navigator.pushNamed(context, '/l');
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text('Logout',
+                                                        style: TextStyle(
+                                                            color: kPrimary),),
+                                                      content: Text(
+                                                          'Are you sure?'
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                  context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text('No')),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              BlocProvider.of<
+                                                                  AuthenticationBloc>(
+                                                                  context).add(
+                                                                  Logout());
+                                                              Navigator
+                                                                  .pushNamedAndRemoveUntil(
+                                                                  context,
+                                                                  '/', (
+                                                                  route) => false);
+                                                            },
+                                                            child: Text('Yes'))
+                                                      ],
+                                                    );
+                                                  }
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.exit_to_app_rounded,
+                                              color: Colors.grey,
+                                            )),
+                                      ),
+                                    ]
+                                );
+                              return SizedBox();
+                            }
                           )
                         ],
                       ),
-                      // Container(
-                      //   padding: EdgeInsets.all(10),
-                      //   margin: EdgeInsets.symmetric(vertical: 24),
-                      //   height: 60,
-                      //   color: kPrimaryLight,
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Text(
-                      //         'Search',
-                      //         style: TextStyle(color: Colors.grey),
-                      //       ),
-                      //       Icon(
-                      //         Icons.search,
-                      //         color: Colors.grey,
-                      //       )
-                      //     ],
-                      //   ),
-                      // ),
+                      BlocBuilder<AuthenticationBloc, AuthenticationState>(
+
+                        builder: (context, state){
+                          if(state is Authenticated){
+                            print("user user: ${state.user.isAdmin}");
+                            if(state.user.isAdmin){
+                              return BlocConsumer<HomePageBloc, HomepageState>(
+                                  listener: (context,  state){
+                                    print('current state: ${state}');
+                                    if(state is HomepageStatSuccessState){
+                                      // BlocProvider.of<HomePageBloc>(context).add(HomepageEvent.GetLyrics);
+                                    }
+                                  },
+                                  buildWhen: (prevstate, currentstate){
+                                    if(currentstate is HomepageStatBusyState || currentstate is HomepageStatSuccessState || currentstate is HomepageStatFailedState){
+                                      return true;
+                                    }
+                                    return false;
+                                  },
+                              builder: (context, state){
+                                if(state is HomepageStatSuccessState){
+                                  // BlocProvider.of<HomePageBloc>(context).add(HomepageEvent.GetLyrics);
+                                  print("state $state");
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 10.0),
+                                        child: Row(
+                                          children: [
+                                            DashboardCard(icon: Icons.person, title: '${state.stat.totalUser}', content: 'Users', colors: [Color(0xFF4ECDC4), Color(0xFF556270)],),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            DashboardCard(icon: Icons.text_snippet_outlined, title: '${state.stat.totalLyrics}', content: 'Lyrics\'s', colors: [Color(0xFF42275a), Color(0xFF734b6d)],),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 10.0),
+                                        child: Row(
+                                          children: [
+                                            DashboardCard(icon: Icons.adjust, title: '${state.stat.totalLyricsRequest}', content: 'Request', colors: [Color(0xFFFF5F6D), Color(0xFFFFC371)],),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            DashboardCard(icon: Icons.report_gmailerrorred_outlined, title: '${state.stat.totalUnApprovedLyrics}', content: 'Unapproved', colors: [Color(0xFF3a7bd5), Color(0xFF3a6073)],),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                                else if(state is HomepageStatBusyState){
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SpinKitWave(
+                                      size: 25,
+                                      color: kPrimary,
+                                    ),
+                                  );
+                                }else {
+                                  return GestureDetector(onTap: (){BlocProvider.of<HomePageBloc>(context)..add(HomepageEvent.GetTotalStatus);},child: Text('Failed to fetch stat, tap to retry'));
+                                }
+                              });
+                            }
+                          }
+                          return Container();
+                        }
+                      ),
                       Container(
                         decoration: BoxDecoration(
                             borderRadius:
@@ -197,8 +274,14 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       BlocBuilder<HomePageBloc, HomepageState>(
+                        buildWhen: (prevstate, currentstate){
+                          if(currentstate is HomepageStatBusyState || currentstate is HomepageStatSuccessState || currentstate is HomepageStatFailedState){
+                            return false;
+                          }return true;
+                        },
                         builder: (context, state) {
                           if (state is HomepageSuccessState) {
+                            BlocProvider.of<HomePageBloc>(context).add(HomepageEvent.GetTotalStatus);
                             return ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -227,12 +310,21 @@ class _HomePageState extends State<HomePage> {
               ),
             )),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, AddLyricsPage.routeName);
-        },
-        child: Icon(Icons.add),
-        backgroundColor: kPrimary,
+      floatingActionButton: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) => FloatingActionButton(
+          onPressed: () {
+            if(state is Authenticated)
+            Navigator.pushNamed(context, AddLyricsPage.routeName);
+            else
+              _scaffoldKey.currentState.showSnackBar(
+                SnackBar(content: Text('Login to add lyrics'), action: SnackBarAction(label: 'Login', onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false,);
+                },),)
+              );
+          },
+          child: Icon(Icons.add),
+          backgroundColor: kPrimary,
+        ),
       ),
     );
   }

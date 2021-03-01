@@ -57,12 +57,12 @@ class LyricsListItem extends StatelessWidget{
                 ),
               ),
             ),
-            IconButton(
-                icon: Icon(
-                  Icons.favorite_border_sharp,
-                  color: Colors.black38,
-                ),
-                onPressed: null)
+            // IconButton(
+            //     icon: Icon(
+            //       Icons.favorite_border_sharp,
+            //       color: Colors.black38,
+            //     ),
+            //     onPressed: null)
           ],
         ),
       ),
